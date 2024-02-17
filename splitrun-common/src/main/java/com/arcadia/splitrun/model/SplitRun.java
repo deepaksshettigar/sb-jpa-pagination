@@ -5,9 +5,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.time.Instant;
 
-@Entity
 @Data
+@Entity
 @Table(name = "split_run", schema = "reports")
 public class SplitRun {
 
@@ -18,4 +20,22 @@ public class SplitRun {
     BigInteger id;
 
     String name;
+
+    String customerId;
+
+    Timestamp createdAt;
+    String createdBy;
+
+    Timestamp updatedAt;
+    String updatedBy;
+
+    @PrePersist
+    void setCreatedAt(){
+        createdAt = Timestamp.from(Instant.now());
+    }
+
+    @PreUpdate
+    void setUpdatedAt(){
+        updatedAt = Timestamp.from(Instant.now());
+    }
 }
