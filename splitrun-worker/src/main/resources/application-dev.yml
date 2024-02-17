@@ -1,0 +1,5 @@
+logging:
+    level:
+        org.springframework.web: ERROR
+        com.arcadia: DEBUG
+        root: ERROR

@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: 'postgres:16-alpine'
+    container_name: 'sr-pg'
+    environment:
+      - 'POSTGRES_DB=paginated_reports'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=postgres'
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    labels:
+      org.springframework.boot.readiness-check.tcp.disable: false
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: sr-pg-admin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: postgres@localhost.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    ports:
+      - "5050:80"
+    labels:
+      org.springframework.boot.readiness-check.tcp.disable: false
+  localstack:
+    container_name: "sr-localstack"
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
+    environment:
+      # LocalStack configuration: https://docs.localstack.cloud/references/configuration/
+      - DEBUG=${DEBUG:-0}
+    volumes:
+      - "$HOME/docker_volume/localstack:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    labels:
+      org.springframework.boot.readiness-check.tcp.disable: false
+  redis:
+    image: 'redis'
+    container_name: 'sr-redis'
+    ports:
+      - '6379'
+    labels:
+      org.springframework.boot.readiness-check.tcp.disable: false

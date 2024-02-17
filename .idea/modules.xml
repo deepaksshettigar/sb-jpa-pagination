@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/splitrun-api/splitrun.splitrun-api.main.iml" filepath="$PROJECT_DIR$/.idea/modules/splitrun-api/splitrun.splitrun-api.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/splitrun-common/splitrun.splitrun-common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/splitrun-common/splitrun.splitrun-common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/splitrun-worker/splitrun.splitrun-worker.main.iml" filepath="$PROJECT_DIR$/.idea/modules/splitrun-worker/splitrun.splitrun-worker.main.iml" />
+    </modules>
+  </component>
+</project>

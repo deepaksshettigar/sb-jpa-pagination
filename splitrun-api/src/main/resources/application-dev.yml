@@ -1,0 +1,15 @@
+spring:
+    docker:
+        compose:
+            enabled: true
+            lifecycle-management: START_ONLY
+            file: ../docker-compose.yml
+    sql:
+        init:
+            mode: ALWAYS
+
+logging:
+    level:
+        root: ERROR
+        org.springframework.web: ERROR
+        com.arcadia: DEBUG
