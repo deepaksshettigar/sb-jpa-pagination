@@ -17,25 +17,29 @@ public class SplitRun {
     @SequenceGenerator(name = "split_run_id_seq", sequenceName = "split_run_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "split_run_id_seq")
     @Column(columnDefinition = "serial")
-    BigInteger id;
+    private BigInteger id;
 
-    String name;
+    private String name;
 
-    String customerId;
+    private String customerId;
 
-    Timestamp createdAt;
-    String createdBy;
+    private Timestamp createdAt;
+    private String createdBy;
 
-    Timestamp updatedAt;
-    String updatedBy;
+    private Timestamp updatedAt;
+    private String updatedBy;
+
+    private Timestamp deletedAt;
+    private String deletedBy;
 
     @PrePersist
-    void setCreatedAt(){
-        createdAt = Timestamp.from(Instant.now());
+    public void setCreatedAt(SplitRun sr){
+        createdAt = (Timestamp.from(Instant.now()));
     }
 
     @PreUpdate
-    void setUpdatedAt(){
+    public void setUpdatedAt(){
         updatedAt = Timestamp.from(Instant.now());
     }
+
 }

@@ -17,38 +17,39 @@ import java.util.stream.IntStream;
 @Slf4j
 public class SplitRunDataMock {
 
-    @Autowired
-    SplitRunRepository repository;
+    SplitRunRepository splitRunRepository;
+
+    SplitRunDataMock(SplitRunRepository repository) {
+        this.splitRunRepository = repository;
+
+    }
 
     @Bean
     public String setupMockData() {
-        repository.deleteAll();
+        splitRunRepository.deleteAll();
 
         SplitRun sr1 = new SplitRun();
         sr1.setName("Name Some mock 0" );
-        repository.save(sr1);
-        // log.debug("Saved mock data");
+        splitRunRepository.save(sr1);
 
         SplitRun sr2 = new SplitRun();
         sr2.setName("Name Some mock 1" );
-        repository.save(sr2);
-        // log.debug("Saved mock data");
+        splitRunRepository.save(sr2);
 
         IntStream.iterate(1, i -> ++i)
                 .limit(100)
                 .forEach(j -> {
                     SplitRun sr = new SplitRun();
                     sr.setName("Mock Name " + j);
-                    repository.save(sr);
+                    splitRunRepository.save(sr);
 
-                    // log.debug("Saved mock data");
                 });
 
         Pageable pagination = PageRequest.of(0, 10);
-        Page<SplitRun> results = repository.findByNameIgnoreCaseContaining("Mock", pagination);
-        results.forEach(sr -> {
-            log.debug("Retrieved mock data: {} - {}", sr.getId(), sr.getName());
-        });
+        Page<SplitRun> results = splitRunRepository.findByNameIgnoreCaseContaining("Mock", pagination);
+        results.forEach(sr -> 
+            log.debug("Retrieved mock data: {} - {}", sr.getId(), sr.getName())
+        );
 
 
         return Strings.EMPTY;
