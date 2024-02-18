@@ -33,7 +33,7 @@ public class SplitRun {
     private String deletedBy;
 
     @PrePersist
-    public void setCreatedAt(SplitRun sr){
+    public void setCreatedAt(){
         createdAt = (Timestamp.from(Instant.now()));
     }
 

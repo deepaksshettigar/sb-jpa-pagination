@@ -21,7 +21,6 @@ public class SplitRunDataMock {
 
     SplitRunDataMock(SplitRunRepository repository) {
         this.splitRunRepository = repository;
-
     }
 
     @Bean
@@ -37,20 +36,18 @@ public class SplitRunDataMock {
         splitRunRepository.save(sr2);
 
         IntStream.iterate(1, i -> ++i)
-                .limit(100)
-                .forEach(j -> {
-                    SplitRun sr = new SplitRun();
-                    sr.setName("Mock Name " + j);
-                    splitRunRepository.save(sr);
-
-                });
+            .limit(100)
+            .forEach(j -> {
+                SplitRun sr = new SplitRun();
+                sr.setName("Mock Name " + j);
+                splitRunRepository.save(sr);
+            });
 
         Pageable pagination = PageRequest.of(0, 10);
         Page<SplitRun> results = splitRunRepository.findByNameIgnoreCaseContaining("Mock", pagination);
         results.forEach(sr -> 
             log.debug("Retrieved mock data: {} - {}", sr.getId(), sr.getName())
         );
-
 
         return Strings.EMPTY;
     }
