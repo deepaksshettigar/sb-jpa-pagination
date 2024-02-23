@@ -4,12 +4,20 @@ spring:
             enabled: true
             lifecycle-management: START_ONLY
             file: ../docker-compose.yml
+    datasource:
+        url: jdbc:postgresql://127.0.0.1:5432/paginated_reports
+        username: postgres
+        password: postgres
     sql:
         init:
             mode: ALWAYS
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
 
 logging:
     level:
         root: ERROR
-        org.springframework.web: ERROR
+        org.springframework.web: DEBUG
         com.arcadia: DEBUG

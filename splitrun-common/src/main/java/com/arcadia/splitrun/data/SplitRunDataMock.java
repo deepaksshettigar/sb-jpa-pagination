@@ -4,7 +4,6 @@ import com.arcadia.splitrun.model.SplitRun;
 import com.arcadia.splitrun.repo.SplitRunRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
@@ -36,7 +35,7 @@ public class SplitRunDataMock {
         splitRunRepository.save(sr2);
 
         IntStream.iterate(1, i -> ++i)
-            .limit(100)
+            .limit(20)
             .forEach(j -> {
                 SplitRun sr = new SplitRun();
                 sr.setName("Mock Name " + j);
