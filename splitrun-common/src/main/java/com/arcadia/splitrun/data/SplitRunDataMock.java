@@ -28,10 +28,12 @@ public class SplitRunDataMock {
 
         SplitRun sr1 = new SplitRun();
         sr1.setName("Name Some mock 0" );
+        sr1.setDashboardId("Mock Dashboard Name 0");
         splitRunRepository.save(sr1);
 
         SplitRun sr2 = new SplitRun();
         sr2.setName("Name Some mock 1" );
+        sr2.setDashboardId("Mock Dashboard Name 1");
         splitRunRepository.save(sr2);
 
         IntStream.iterate(1, i -> ++i)
@@ -39,6 +41,7 @@ public class SplitRunDataMock {
             .forEach(j -> {
                 SplitRun sr = new SplitRun();
                 sr.setName("Mock Name " + j);
+                sr.setDashboardId("Mock Dashboard Name " + j);
                 splitRunRepository.save(sr);
             });
 
