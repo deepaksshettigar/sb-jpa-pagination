@@ -33,7 +33,7 @@ public class SplitRunDataMock {
 
         SplitRun sr2 = new SplitRun();
         sr2.setName("Name Some mock 1" );
-        sr2.setDashboardId("Mock Dashboard Name 1");
+        sr2.setDashboardId("Mock Dashboard Name 0");
         splitRunRepository.save(sr2);
 
         IntStream.iterate(1, i -> ++i)
@@ -41,14 +41,16 @@ public class SplitRunDataMock {
             .forEach(j -> {
                 SplitRun sr = new SplitRun();
                 sr.setName("Mock Name " + j);
-                sr.setDashboardId("Mock Dashboard Name " + j);
+                sr.setDashboardId("Mock dashboard " + j);
                 splitRunRepository.save(sr);
             });
 
         Pageable pagination = PageRequest.of(0, 10);
-        Page<SplitRun> results = splitRunRepository.findByNameIgnoreCaseContaining("Mock", pagination);
+
+        String searchTerm = "Name";
+        Page<SplitRun> results = splitRunRepository.findByNameOrDashboardIdIgnoreCaseContaining(searchTerm, searchTerm, pagination);
         results.forEach(sr -> 
-            log.debug("Retrieved mock data: {} - {}", sr.getId(), sr.getName())
+            log.debug("Retrieved mock data: {} - {} - {}", sr.getId(), sr.getName(), sr.getDashboardId())
         );
 
         return Strings.EMPTY;

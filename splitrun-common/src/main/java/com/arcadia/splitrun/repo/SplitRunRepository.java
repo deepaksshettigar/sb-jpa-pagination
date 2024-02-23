@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.math.BigInteger;
 
 public interface SplitRunRepository extends JpaRepository<SplitRun, BigInteger> {
-    Page<SplitRun> findByNameIgnoreCaseContaining(String name, Pageable pageable);
+    Page<SplitRun> findByNameOrDashboardIdIgnoreCaseContaining(String name, String dashboardId,Pageable pageable);
 
 }
