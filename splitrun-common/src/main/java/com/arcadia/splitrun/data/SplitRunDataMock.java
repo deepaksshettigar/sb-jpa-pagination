@@ -27,14 +27,9 @@ public class SplitRunDataMock {
         splitRunRepository.deleteAll();
 
         SplitRun sr1 = new SplitRun();
-        sr1.setName("Name Some mock 0" );
-        sr1.setDashboardId("Mock Dashboard Name 0");
+        sr1.setName("Some mock NM 0" );
+        sr1.setDashboardId("Some mock DB Name 0");
         splitRunRepository.save(sr1);
-
-        SplitRun sr2 = new SplitRun();
-        sr2.setName("Name Some mock 1" );
-        sr2.setDashboardId("Mock Dashboard Name 0");
-        splitRunRepository.save(sr2);
 
         IntStream.iterate(1, i -> ++i)
             .limit(20)
