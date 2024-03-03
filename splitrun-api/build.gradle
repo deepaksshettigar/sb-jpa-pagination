@@ -39,6 +39,10 @@ dependencies {
 	testImplementation 'org.testcontainers:junit-jupiter'
 	developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 	runtimeOnly 'org.postgresql:postgresql'
+
+  // Logbook
+  implementation 'org.zalando:logbook-spring-boot-starter:3.7.2'
+
 }
 
 tasks.named('test') {
