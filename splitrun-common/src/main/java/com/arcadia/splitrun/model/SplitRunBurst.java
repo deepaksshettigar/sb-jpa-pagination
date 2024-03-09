@@ -1,18 +1,21 @@
 package com.arcadia.splitrun.model;
 
+import com.arcadia.splitrun.util.JsonNodeConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.Type;
+
+
 import java.sql.Timestamp;
+
 
 @Entity
 @SQLDelete(sql = "UPDATE split_run_bursts srb SET deleted_at = NOW(), deleted_by = (SELECT user_id FROM split_run_bursts WHERE id = srb.id) WHERE id = ?")
 @SQLRestriction(value = " deleted_at IS NULL")
 @Table(name = "split_run_bursts")
-//@EntityListeners(value = {SplitRunBurstListener.class})
 public class SplitRunBurst extends AuditAttributes {
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -23,9 +26,10 @@ public class SplitRunBurst extends AuditAttributes {
   @Column(nullable = false)
   private Integer burstNumber;
 
-  @Column(columnDefinition = "jsonb", nullable = false)
   @ColumnTransformer(write = "?::jsonb")
-  private String jsonConfig;
+  @Convert(converter = JsonNodeConverter.class)
+  @Column(columnDefinition = "jsonb", nullable = false)
+  private JsonNode jsonConfig;
 
   @Column(nullable = true)
   private String dashboardName;
@@ -56,11 +60,11 @@ public class SplitRunBurst extends AuditAttributes {
     this.burstNumber = burstNumber;
   }
 
-  public String getJsonConfig() {
+  public JsonNode getJsonConfig() {
     return jsonConfig;
   }
 
-  public void setJsonConfig(String jsonConfig) {
+  public void setJsonConfig(JsonNode jsonConfig) {
     this.jsonConfig = jsonConfig;
   }
 
@@ -95,7 +99,5 @@ public class SplitRunBurst extends AuditAttributes {
   public void setExecutedAt(Timestamp executedAt) {
     this.executedAt = executedAt;
   }
-
-
 
 }

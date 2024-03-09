@@ -4,6 +4,9 @@ import com.arcadia.splitrun.model.SplitRun;
 import com.arcadia.splitrun.model.SplitRunBurst;
 import com.arcadia.splitrun.repo.SplitRunBurstRepository;
 import com.arcadia.splitrun.repo.SplitRunRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +39,9 @@ public class SplitRunDataMock {
         splitRunRepository.deleteAll();
       List<SplitRun> splitRuns = new ArrayList<>();
       List<SplitRunBurst> splitRunBursts = new ArrayList<>();
+      ObjectMapper objectMapper = new ObjectMapper();
+
+      // Convert JSON string to JsonNode (or JsonObject)
 
       IntStream.iterate(1, i -> ++i)
         .limit(1)
@@ -51,7 +57,14 @@ public class SplitRunDataMock {
               SplitRunBurst splitRunBurst = new SplitRunBurst();
 
               UUID dashboardId = UUID.randomUUID();
-              splitRunBurst.setJsonConfig("{\"dashboardId\": \""+ dashboardId.toString()+"\"}");
+              String jsonConfig = "{\"dashboardId\": \""+ dashboardId.toString()+"\"}";
+                try {
+                JsonNode jsonNode = objectMapper.readTree(jsonConfig);
+                  splitRunBurst.setJsonConfig(jsonNode);
+                } catch (JsonProcessingException e) {
+                    throw new RuntimeException(e);
+                }
+
               splitRunBurst.setSplitRun(splitRun);
               Integer burstNumber = Integer.sum(splitRunBurstRepository.findMaxBurstNumBySplitRunId(splitRun.getId()), 1);
               splitRunBurst.setBurstNumber(burstNumber);
