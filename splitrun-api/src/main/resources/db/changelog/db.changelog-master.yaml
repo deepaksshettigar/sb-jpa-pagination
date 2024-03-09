@@ -1,15 +1,27 @@
 databaseChangeLog:
+  - logicalFilePath: 'db/changelog/db.changelog-master.yaml'
   - preConditions:
   - changeSet:
       id: '001'
+      comment: 'Create split_runs table'
       author: 'liquibase'
       changes:
+        - tagDatabase:
+            tag: 001
         - sqlFile:
-            endDelimiter: \nGO
-            splitStatements: true
-            stripComments: true
-            relativeToChangelogFile: true
-            path: ./changes/001-1-create-tbl-splitruns.sql
+            path: classpath:/db/changelog/changes/001__create_tbl__split_runs.sql
       rollback:
         - sql:
             sql: DROP TABLE public.split_runs;
+  - changeSet:
+      id: '002'
+      comment: 'Create split_run_bursts table'
+      author: 'liquibase'
+      changes:
+        - tagDatabase:
+            tag: 002
+        - sqlFile:
+            path: classpath:/db/changelog/changes/002__create_tbl__split_run_bursts.sql
+      rollback:
+        - sql:
+            sql: DROP TABLE public.split_run_bursts;

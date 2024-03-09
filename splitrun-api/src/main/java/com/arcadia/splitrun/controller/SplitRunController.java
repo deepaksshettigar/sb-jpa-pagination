@@ -1,7 +1,7 @@
 package com.arcadia.splitrun.controller;
 
 
-import com.arcadia.splitrun.model.SplitRuns;
+import com.arcadia.splitrun.model.SplitRun;
 import com.arcadia.splitrun.service.SplitRunService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +25,7 @@ public class SplitRunController {
   }
 
   @GetMapping
-  public ResponseEntity<Page<SplitRuns>> findAll(@SortDefault(sort = "createdAt", direction = Sort.Direction.DESC) @PageableDefault(size = Integer.MAX_VALUE, page = 0) final Pageable pageable, @RequestParam(name = "search", required = false, defaultValue = "") String searchTerm) {
+  public ResponseEntity<Page<SplitRun>> findAll(@SortDefault(sort = "createdAt", direction = Sort.Direction.DESC) @PageableDefault(size = Integer.MAX_VALUE, page = 0) final Pageable pageable, @RequestParam(name = "search", required = false, defaultValue = "") String searchTerm) {
     return ResponseEntity.ok(splitRunService.findAll(pageable, searchTerm));
   }
 
