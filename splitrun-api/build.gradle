@@ -43,13 +43,16 @@ dependencies {
   // Logbook
   implementation 'org.zalando:logbook-spring-boot-starter:3.7.2'
 
+  // Liquibase
+  runtimeOnly 'org.liquibase:liquibase-core'
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
-def profiles = 'dev'
+def profiles = 'local'
 
 bootRun {
 	systemProperty "spring.profiles.active", profiles

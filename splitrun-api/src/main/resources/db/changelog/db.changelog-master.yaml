@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - preConditions:
+  - changeSet:
+      id: '001'
+      author: 'liquibase'
+      changes:
+        - sqlFile:
+            endDelimiter: \nGO
+            splitStatements: true
+            stripComments: true
+            relativeToChangelogFile: true
+            path: ./changes/001-1-create-tbl-splitruns.sql
+      rollback:
+        - sql:
+            sql: DROP TABLE public.split_runs;

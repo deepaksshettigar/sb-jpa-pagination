@@ -1,6 +1,6 @@
 package com.arcadia.splitrun.data;
 
-import com.arcadia.splitrun.model.SplitRun;
+import com.arcadia.splitrun.model.SplitRuns;
 import com.arcadia.splitrun.repo.SplitRunRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
@@ -26,26 +26,24 @@ public class SplitRunDataMock {
     public String setupMockData() {
         splitRunRepository.deleteAll();
 
-        SplitRun sr1 = new SplitRun();
+        SplitRuns sr1 = new SplitRuns();
         sr1.setName("Some mock NM 0" );
-        sr1.setDashboardId("Some mock DB Name 0");
         splitRunRepository.save(sr1);
 
         IntStream.iterate(1, i -> ++i)
             .limit(20)
             .forEach(j -> {
-                SplitRun sr = new SplitRun();
+                SplitRuns sr = new SplitRuns();
                 sr.setName("Mock Name " + j);
-                sr.setDashboardId("Mock dashboard " + j);
                 splitRunRepository.save(sr);
             });
 
         Pageable pagination = PageRequest.of(0, 10);
 
-        String searchTerm = "Name";
-        Page<SplitRun> results = splitRunRepository.findByNameOrDashboardIdIgnoreCaseContaining(searchTerm, searchTerm, pagination);
+        String searchTerm = "name";
+        Page<SplitRuns> results = splitRunRepository.findByNameIgnoreCaseContaining(searchTerm, pagination);
         results.forEach(sr -> 
-            log.debug("Retrieved mock data: {} - {} - {}", sr.getId(), sr.getName(), sr.getDashboardId())
+            log.debug("Retrieved mock data: {} - {}", sr.getId(), sr.getName())
         );
 
         return Strings.EMPTY;

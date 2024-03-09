@@ -1,6 +1,6 @@
 package com.arcadia.splitrun.service;
 
-import com.arcadia.splitrun.model.SplitRun;
+import com.arcadia.splitrun.model.SplitRuns;
 import com.arcadia.splitrun.repo.SplitRunRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,8 +15,8 @@ public class SplitRunService {
     this.splitRunRepository = splitRunRepository;
   }
 
-  public Page<SplitRun> findAll(Pageable pageable, String searchTerm){
-    return splitRunRepository.findByNameOrDashboardIdIgnoreCaseContaining(searchTerm, searchTerm, pageable);
+  public Page<SplitRuns> findAll(Pageable pageable, String searchTerm){
+    return splitRunRepository.findByNameIgnoreCaseContaining(searchTerm, pageable);
   }
 
 }
