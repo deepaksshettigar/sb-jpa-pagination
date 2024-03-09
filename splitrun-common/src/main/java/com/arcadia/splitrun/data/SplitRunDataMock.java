@@ -2,11 +2,13 @@ package com.arcadia.splitrun.data;
 
 import com.arcadia.splitrun.model.SplitRun;
 import com.arcadia.splitrun.model.SplitRunBurst;
+import com.arcadia.splitrun.repo.SplitRunBurstRepository;
 import com.arcadia.splitrun.repo.SplitRunRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,13 +22,16 @@ import java.util.stream.IntStream;
 @Slf4j
 public class SplitRunDataMock {
 
-    SplitRunRepository splitRunRepository;
+    private SplitRunRepository splitRunRepository;
+    private SplitRunBurstRepository splitRunBurstRepository;
 
-    SplitRunDataMock(SplitRunRepository repository) {
-        this.splitRunRepository = repository;
+    SplitRunDataMock(SplitRunRepository splitRunRepository, SplitRunBurstRepository splitRunBurstRepository) {
+        this.splitRunRepository = splitRunRepository;
+        this.splitRunBurstRepository = splitRunBurstRepository;
     }
 
     @Bean
+    @Profile("local")
     public String setupMockData() {
         splitRunRepository.deleteAll();
       List<SplitRun> splitRuns = new ArrayList<>();
@@ -44,11 +49,16 @@ public class SplitRunDataMock {
             .limit(5)
             .forEach(l -> {
               SplitRunBurst splitRunBurst = new SplitRunBurst();
-              splitRunBurst.setBurstNumber(l);
+
               UUID dashboardId = UUID.randomUUID();
               splitRunBurst.setJsonConfig("{\"dashboardId\": \""+ dashboardId.toString()+"\"}");
               splitRunBurst.setSplitRun(splitRun);
+              Integer burstNumber = Integer.sum(splitRunBurstRepository.findMaxBurstNumBySplitRunId(splitRun.getId()), 1);
+              splitRunBurst.setBurstNumber(burstNumber);
+              splitRunBurstRepository.save(splitRunBurst);
+
               splitRunBursts.add(splitRunBurst);
+
             });
           splitRun.setSplitRunBursts(splitRunBursts);
           // Add Bursts
